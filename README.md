@@ -2,6 +2,8 @@
 
 This is a simple clock created using JavaScript and HTML5 Canvas. Steps 1 to 10 show how the clock wwas made.
 
+![Display Image](images/clock-main.gif)
+
 ## Table of Contents
 - [JavaScript Canvas Clock](#javascript-canvas-clock)
   - [Table of Contents](#table-of-contents)
