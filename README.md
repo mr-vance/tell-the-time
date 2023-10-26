@@ -84,7 +84,7 @@ graphics.clearRect(0, 0, canvas.width, canvas.height);
 ## 10. Smooth Clock Movement
 Adjust the code to make the clock hands move smoothly, and update the second hand every 10ms. Remove the axes/guidelines.
 
-![Smooth Clock Movement](images/clock-final.gif)
+![Smooth Clock Movement](images/clock-main.gif)
 
 ## 11. Project Completion Date
 This project was completed on Sunday, 13 August 2023, at 5:20 PM.
