@@ -4,8 +4,15 @@ This is a simple clock created using JavaScript and HTML5 Canvas. Steps 1 to 10 
 
 ![Display Image](images/clock-main.gif)
 
+## Languages used
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
+
 ## Table of Contents
 - [JavaScript Canvas Clock](#javascript-canvas-clock)
+  - [Languages used](#languages-used)
   - [Table of Contents](#table-of-contents)
   - [1. Canvas Dimensions](#1-canvas-dimensions)
   - [2. Origin and Coordinates](#2-origin-and-coordinates)
