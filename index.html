@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Set character encoding and responsive viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Preconnect to Google Fonts for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Load Inter font with weights 200, 400, 700 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap" rel="stylesheet">
-    <title>Enhanced Canvas Clock</title>
+    
+    <title>Canvas Clock</title>
+    
     <style>
+        /* Reset default styles and set global font */
         * {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -15,6 +23,7 @@
             box-sizing: border-box;
         }
 
+        /* Style body with gradient background and centered layout */
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
@@ -25,19 +34,14 @@
             padding: 20px;
         }
 
+        /* Center and constrain clock container */
         .clock-container {
             text-align: center;
             max-width: 700px;
             width: 100%;
         }
 
-        h2 {
-            font-size: 2.5rem;
-            color: #2d3436;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
+        /* Style canvas with border, shadow, and gradient background */
         #myCanvas {
             border: 12px solid #2d3436;
             border-radius: 50%;
@@ -47,6 +51,7 @@
             height: auto;
         }
 
+        /* Style digital time display with shadow and hover animation */
         .digital-time {
             font-size: 1.5rem;
             font-weight: 700;
@@ -59,15 +64,14 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        /* Add hover effect to digital time */
         .digital-time:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
 
+        /* Responsive styles for smaller screens */
         @media (max-width: 600px) {
-            h2 {
-                font-size: 1.8rem;
-            }
             .digital-time {
                 font-size: 1.2rem;
             }
@@ -79,6 +83,7 @@
     </style>
 </head>
 <body>
+    <!-- Main container for clock and digital display -->
     <div class="clock-container">
         <canvas id="myCanvas" width="600" height="600">
             Your browser does not support the HTML5 canvas tag.
@@ -87,11 +92,18 @@
     </div>
 
     <script>
+        // Initialize canvas and context
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
+
+        // Store timezone offset and detected timezone
         let userTimeZoneOffset = new Date().getTimezoneOffset();
         let detectedTimezone = null;
 
+        /**
+         * Fetches user's timezone from ipapi.co and updates offset
+         * @async
+         */
         async function fetchTimeZone() {
             try {
                 const response = await fetch('https://ipapi.co/json/');
@@ -106,11 +118,18 @@
             }
         }
 
+        /**
+         * Draws clock face with gradient fill and border
+         * @param {number} radius - Clock radius
+         * @param {number} centerX - X-coordinate of center
+         * @param {number} centerY - Y-coordinate of center
+         */
         function drawCircle(radius, centerX, centerY) {
             ctx.save();
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
             
+            // Create radial gradient for clock face
             const gradient = ctx.createRadialGradient(
                 centerX, centerY, radius * 0.1,
                 centerX, centerY, radius
@@ -126,6 +145,12 @@
             ctx.restore();
         }
 
+        /**
+         * Draws hour numbers around clock face
+         * @param {number} centerX - X-coordinate of center
+         * @param {number} centerY - Y-coordinate of center
+         * @param {number} radius - Clock radius
+         */
         function drawNumbers(centerX, centerY, radius) {
             ctx.save();
             ctx.font = `${radius * 0.1}px Inter`;
@@ -142,6 +167,12 @@
             ctx.restore();
         }
 
+        /**
+         * Draws hour and minute tick marks
+         * @param {number} centerX - X-coordinate of center
+         * @param {number} centerY - Y-coordinate of center
+         * @param {number} radius - Clock radius
+         */
         function drawTics(centerX, centerY, radius) {
             ctx.save();
             for (let i = 0; i < 60; i++) {
@@ -164,11 +195,19 @@
             ctx.restore();
         }
 
+        /**
+         * Draws a clock hand with shadow
+         * @param {number} centerX - X-coordinate of center
+         * @param {number} centerY - Y-coordinate of center
+         * @param {number} length - Hand length
+         * @param {number} angle - Hand angle in degrees
+         * @param {number} width - Line width
+         * @param {string} color - Hand color
+         */
         function drawHand(centerX, centerY, length, angle, width, color) {
             ctx.save();
             const theta = (angle - 90) * Math.PI / 180;
             
-            // Enhanced shadow for better depth
             ctx.shadowColor = 'rgba(0,0,0,0.4)';
             ctx.shadowBlur = 8;
             ctx.shadowOffsetX = 3;
@@ -187,6 +226,12 @@
             ctx.restore();
         }
 
+        /**
+         * Draws center dot of clock
+         * @param {number} centerX - X-coordinate of center
+         * @param {number} centerY - Y-coordinate of center
+         * @param {number} radius - Dot radius
+         */
         function drawCenterDot(centerX, centerY, radius) {
             ctx.save();
             ctx.beginPath();
@@ -196,6 +241,9 @@
             ctx.restore();
         }
 
+        /**
+         * Animates the clock by drawing all elements
+         */
         function animateClock() {
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
@@ -203,6 +251,7 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // Get current time with timezone adjustment
             const d = detectedTimezone 
                 ? new Date(new Date().toLocaleString('en-US', { timeZone: detectedTimezone }))
                 : new Date(new Date().getTime() + (userTimeZoneOffset * 60000));
@@ -212,10 +261,12 @@
             const minutes = d.getMinutes() + seconds / 60;
             const hours = d.getHours() % 12 + minutes / 60;
 
+            // Draw clock components
             drawCircle(radius, centerX, centerY);
             drawNumbers(centerX, centerY, radius);
             drawTics(centerX, centerY, radius);
             
+            // Draw hour, minute, and second hands
             drawHand(centerX, centerY, radius * 0.5, (360 / 12) * hours, 8, '#2d3436');
             drawHand(centerX, centerY, radius * 0.7, (360 / 60) * minutes, 5, '#2d3436');
             drawHand(centerX, centerY, radius * 0.8, (360 / 60) * seconds, 2, '#e03131');
@@ -224,6 +275,9 @@
             requestAnimationFrame(animateClock);
         }
 
+        /**
+         * Updates digital time display
+         */
         function updateDigitalTime() {
             const d = detectedTimezone 
                 ? new Date().toLocaleString('en-US', { 
@@ -244,15 +298,22 @@
             document.getElementById("digitalTime").textContent = d;
         }
 
+        /**
+         * Resizes canvas based on container size
+         */
         function resizeCanvas() {
             const container = document.querySelector('.clock-container');
             const size = Math.min(container.offsetWidth * 0.95, window.innerHeight * 0.7);
-            if (Math.abs(canvas.width - size) > 1) { // Prevent unnecessary redraws
+            if (Math.abs(canvas.width - size) > 1) {
                 canvas.width = size;
                 canvas.height = size;
             }
         }
 
+        /**
+         * Initializes clock with timezone, animation, and resize handling
+         * @async
+         */
         async function init() {
             await fetchTimeZone();
             window.addEventListener('resize', resizeCanvas);
@@ -261,6 +322,7 @@
             setInterval(updateDigitalTime, 1000);
         }
 
+        // Start clock on window load
         window.onload = init;
     </script>
 </body>
