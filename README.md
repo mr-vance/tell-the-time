@@ -6,9 +6,9 @@ This is a vibrant and interactive clock application created using JavaScript and
 
 ## Languages used
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)  
-[![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)](https://forthebadge.com)  
-[![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)]()
+[![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)]()
+[![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)]()
 
 ## Table of Contents
 - [JavaScript Canvas Clock ⏰✨](#javascript-canvas-clock)
